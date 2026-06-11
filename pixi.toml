@@ -1,7 +1,7 @@
 [workspace]
 name = "hydrodynamics"
 channels = [
-  "http://localhost:8000/general",
+  "http://localhost:12222/general",
   "https://prefix.dev/robostack-kilted",
   "https://prefix.dev/conda-forge",
 ]
@@ -10,30 +10,52 @@ preview = ["pixi-build"]
 
 [dependencies]
 hydrodynamics = { path = "." }
-mise = "*"
+mise          = "*"
 
 [package]
-name = "hydrodynamics"
-version = "1.0.0"
+name        = "hydrodynamics"
+version     = "1.0.0"
 description = "A collection of wrapper classes for hydrodynamic parameters."
-license = "MIT"
-authors = ["Evan Palmer <evanp922@gmail.com>"]
+license     = "MIT"
+authors     = ["Evan Palmer <evanp922@gmail.com>"]
 
 [package.build.backend]
-name = "pixi-build-ros-gr"
-version = "*"
+name    = "pixi-build-ros-gr"
+version = ">=0.4,<0.5"
 
 [package.build.config]
-mode = "pixi-native"
-build-type = "ament_cmake"
-distro = "kilted"
-
+mode         = "pixi-native"
+build-type   = "ament_cmake"
+distro       = "kilted"
 build-number = 1
+
 [package.host-dependencies]
-ros-kilted-ament-cmake = "*"
-eigen = "*"
+ros-kilted-ament-cmake     = "*"
+eigen                      = "*"
 ros-kilted-tinyxml2-vendor = "*"
 
 [package.run-dependencies]
-eigen = "*"
+eigen                      = "*"
 ros-kilted-tinyxml2-vendor = "*"
+
+# Test env builds the package from source with colcon (deb parity),
+# so it needs the build (host) deps as well as the test deps.
+[feature.tests.dependencies]
+# conda toolchain: keeps colcon include/link paths inside the env
+cxx-compiler               = "*"
+cmake                      = "*"
+make                       = "*"
+pkg-config                 = "*"
+ros-kilted-ament-cmake     = "*"
+eigen                      = "*"
+ros-kilted-tinyxml2-vendor = "*"
+colcon-common-extensions   = "*"
+# declared in package.xml <test_depend>
+ros-kilted-ament-lint-auto   = "*"
+ros-kilted-ament-lint-common = "*"
+
+[feature.tests.tasks]
+test = "colcon build && (LD_PRELOAD=$CONDA_PREFIX/lib/libpython3.so colcon test --event-handlers console_direct+ || true) && colcon test-result --all --verbose"
+
+[environments]
+tests = { features = ["tests"], no-default-feature = true }
