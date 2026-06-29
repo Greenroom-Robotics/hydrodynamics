@@ -3,6 +3,7 @@ repos:
     rev: v2.2.4
     hooks:
       - id: codespell
+        exclude: (^|/)pixi\.lock$
 
   - repo: https://github.com/pre-commit/mirrors-clang-format
     rev: v18.1.8
@@ -14,6 +15,12 @@ repos:
     rev: 0.13.5
     hooks:
     - id: gersemi
+
+  - repo: https://github.com/ComPWA/taplo-pre-commit
+    rev: v0.9.3
+    hooks:
+      - id: taplo-format
+        files: (^|/)pixi\.toml$
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
