@@ -10,42 +10,42 @@ preview = ["pixi-build"]
 
 [dependencies]
 ros-kilted-desktop = "*"
-hydrodynamics = { path = "." }
-mise = "*"
+hydrodynamics      = { path = "." }
+mise               = "*"
 
 [package]
-name = "hydrodynamics"
-version = "1.0.0"
+name        = "hydrodynamics"
+version     = "1.0.0"
 description = "A collection of wrapper classes for hydrodynamic parameters."
-license = "MIT"
-authors = ["Evan Palmer <evanp922@gmail.com>"]
+license     = "MIT"
+authors     = ["Evan Palmer <evanp922@gmail.com>"]
 
 [package.build.backend]
-name = "pixi-build-ros-gr"
+name    = "pixi-build-ros-gr"
 version = "*"
 
 [package.build.config]
-mode = "pixi-native"
-build-type = "ament_cmake"
-distro = "kilted"
+mode         = "pixi-native"
+build-type   = "ament_cmake"
+distro       = "kilted"
 build-number = 1
 
 [package.host-dependencies]
-ros-kilted-ament-cmake = "*"
-eigen = "*"
+ros-kilted-ament-cmake     = "*"
+eigen                      = "*"
 ros-kilted-tinyxml2-vendor = "*"
 
 [package.run-dependencies]
-eigen = "*"
+eigen                      = "*"
 ros-kilted-tinyxml2-vendor = "*"
 
 # Build-only tools the run-closure (pulled in via the default feature's path
 # dependency) doesn't provide. Everything else — ament-cmake, the rosidl stack,
 # the message packages — comes transitively, so it isn't re-listed here.
 [feature.tests.dependencies]
-ros-dev-tools-meta = "*"
+ros-dev-tools-meta                   = "*"
 ros-kilted-rosidl-default-generators = "*"
-ros-kilted-ament-lint-auto = "*"
+ros-kilted-ament-lint-auto           = "*"
 
 [feature.tests.tasks]
 build = "colcon build"
@@ -54,11 +54,11 @@ build = "colcon build"
 # failing step stops the chain and fails the task, so a build break or a test
 # failure both surface — no exit codes to juggle.
 [feature.tests.tasks.colcon-test]
-cmd = "bash -c 'colcon test --event-handlers console_direct+ || [ $? -eq 5 ]'"
+cmd        = "bash -c 'colcon test --event-handlers console_direct+ || [ $? -eq 5 ]'"
 depends-on = ["build"]
 
 [feature.tests.tasks.test]
-cmd = "colcon test-result --all --verbose"
+cmd        = "colcon test-result --all --verbose"
 depends-on = ["colcon-test"]
 
 [environments]
